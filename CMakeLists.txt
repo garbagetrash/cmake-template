@@ -1,6 +1,16 @@
 cmake_minimum_required(VERSION 3.5.1 FATAL_ERROR)
 project(MyApp VERSION 1.0.0 LANGUAGES C)
 
+# If cross compiling, do stuff a bit differently
+set(LIB_CMOCKA libcmocka.a)
+set(LIB_PRECOMPILED libprecompiled.a)
+if(${CMAKE_CROSSCOMPILING})
+  message(STATUS "Cross compiling for aarch64!")
+  message(STATUS "Toolchain file: " ${CMAKE_TOOLCHAIN_FILE})
+  set(LIB_CMOCKA libcmocka-aarch64.a)
+  set(LIB_PRECOMPILED libprecompiled-aarch64.a)
+endif(${CMAKE_CROSSCOMPILING})
+
 # Enable tests
 enable_testing()
 
@@ -14,7 +24,7 @@ add_subdirectory(internal-lib)
 # set the "IMPORTED_LOCATION" to the location of the static library, ensuring
 # the absolute path is given.
 add_library(precompiled STATIC IMPORTED)
-set_property(TARGET precompiled PROPERTY IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/precompiled/lib/libprecompiled.a)
+set_property(TARGET precompiled PROPERTY IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/precompiled/lib/${LIB_PRECOMPILED})
 
 # Create app
 add_executable(myapp

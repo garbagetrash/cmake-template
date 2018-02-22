@@ -1,5 +1,8 @@
 # Need to have CMocka installed, now find it on local machine
-find_package(cmocka REQUIRED)
+add_library(cmocka STATIC IMPORTED)
+set_property(TARGET cmocka PROPERTY IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/cmocka/lib/${LIB_CMOCKA})
+set(CMOCKA_LIBRARIES ${CMAKE_SOURCE_DIR}/cmocka/lib/${LIB_CMOCKA})
+set(CMOCKA_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/cmocka/include)
 
 # Test null
 add_executable(test_null
