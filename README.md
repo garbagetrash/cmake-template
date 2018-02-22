@@ -10,3 +10,8 @@ Build with:
 ``` bash
 $ mkdir build && cd build && cmake .. && make
 ```
+
+Cross compile with the following modification to the `cmake` call:
+``` bash
+$ cmake -DCMAKE_TOOLCHAIN_FILE=../Toolchain-aarch64-linux-gnu.cmake ..
+```
